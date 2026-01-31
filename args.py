@@ -1,0 +1,42 @@
+import argparse
+
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--remote', action='store_true', help='the code run on a server')
+parser.add_argument('--num-gpu', type=int, default=1, help='the number of the gpu to use')
+parser.add_argument('--epochs', type=int, default=200, help='train epochs')
+parser.add_argument('--batch-size', type=int, default=12, help='batch size')
+
+parser.add_argument('--filename', type=str, default='pems08')
+parser.add_argument('--train-ratio', type=float, default=0.6, help='the ratio of training dataset')
+parser.add_argument('--valid-ratio', type=float, default=0.2, help='the ratio of validating dataset')
+parser.add_argument('--his-length', type=int, default=12, help='the length of history time series of input')
+parser.add_argument('--pred-length', type=int, default=12, help='the length of target time series for prediction')
+parser.add_argument('--points-per-hour', type=int, default=12, help='number of samples collected per hour')
+
+parser.add_argument('--sigma1', type=float, default=0.1, help='sigma for the semantic matrix')
+parser.add_argument('--sigma2', type=float, default=10, help='sigma for the spatial matrix')
+parser.add_argument('--thres1', type=float, default=0.6, help='the threshold for the semantic matrix')
+parser.add_argument('--thres2', type=float, default=0.5, help='the threshold for the spatial matrix')
+parser.add_argument('--lr', type=float, default=2e-3, help='learning rate')
+parser.add_argument('--use-physics', action='store_true', help='enable physics-guided drift in the ODE blocks')
+parser.add_argument('--physics-weight', type=float, default=0.0, help='regularization weight for physics consistency')
+parser.add_argument('--physics-max-scale', type=float, default=1.0, help='upper bound of physics drift scaling factor')
+parser.add_argument('--use-multiscale', action='store_true', help='enable multi-time-scale coupling with slow dynamics')
+parser.add_argument('--num-regions', type=int, default=8, help='number of regions for slow-scale dynamics')
+parser.add_argument('--use-delay', action='store_true', help='enable delay-aware dynamic adjacency')
+parser.add_argument('--delay-horizon', type=int, default=3, help='number of past steps for delay convolution')
+parser.add_argument('--delay-weight', type=float, default=0.0, help='regularization weight for delay kernel')
+parser.add_argument('--delay-patterns', type=int, default=8, help='number of learnable delay patterns')
+parser.add_argument('--use-multistream-input', action='store_true', help='enable ASTGCN-style multi-stream inputs')
+parser.add_argument('--num-hours-input', type=int, default=1, help='number of hour-scale lags (starting from current hour)')
+parser.add_argument('--num-days-input', type=int, default=1, help='number of day-scale lags (starting from previous day)')
+parser.add_argument('--num-weeks-input', type=int, default=1, help='number of week-scale lags (starting from previous week)')
+parser.add_argument('--use-continuous-readout', action='store_true', help='enable continuous-time readout head')
+parser.add_argument('--lead-weight', type=float, default=0.0, help='weight for lead-time loss')
+parser.add_argument('--lead-threshold', type=float, default=0.0, help='threshold (in normalized scale) to determine event onset')
+parser.add_argument('--lead-steps', type=int, default=0, help='required lead steps before true event')
+
+parser.add_argument('--log', action='store_true', help='if write log to files')
+args = parser.parse_args()
